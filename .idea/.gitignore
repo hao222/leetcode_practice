@@ -1,0 +1,54 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+*.so
+*.xml
+*.log
+*.iml
+.ipynb_checkpoints
+#ipython
+profile_default/
+ipython_config.py
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+*.pyc
+
+__pycache__
+
+.vscode
+
+#pycharm
+.idea/
+.DS_Store
+
+# Log files
+*.log.*
+
+# Backup files #
+*.bak
+
+.local*
