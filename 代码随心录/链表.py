@@ -253,3 +253,104 @@ class MyLinkedList2:
         if prev_node:
             self.head = prev_node.prev
 
+def removeNthFromEnd(head: ListNode, n: int) -> ListNode:
+    """删除倒数第n个节点"""
+    # 创建一个虚拟节点，并将其下一个指针设置为链表的头部
+    dummy_head = ListNode(0, head)
+
+    # 创建两个指针，慢指针和快指针，并将它们初始化为虚拟节点
+    slow = fast = dummy_head
+
+    # 快指针比慢指针快 n+1 步
+    for i in range(n + 1):
+        fast = fast.next
+
+    # 移动两个指针，直到快速指针到达链表的末尾
+    while fast:
+        slow = slow.next
+        fast = fast.next
+
+    # 通过更新第 (n-1) 个节点的 next 指针删除第 n 个节点
+    slow.next = slow.next.next
+
+    return dummy_head.next
+
+# A: a1->a2->c1->c2->c3  B: b1 -> b2 -> b3 -> c1 -> c2   A和B相交于c1点
+def getIntersectionNode(headA: ListNode, headB: ListNode) -> ListNode:
+    """
+    核心逻辑： 等比例
+    :param headA:
+    :param headB:
+    :return:
+    """
+    # 处理边缘情况
+    if not headA or not headB:
+        return None
+
+    # 在每个链表的头部初始化两个指针
+    pointerA = headA
+    pointerB = headB
+
+    # 遍历两个链表直到指针相交
+    while pointerA != pointerB:
+        # 将指针向前移动一个节点
+        pointerA = pointerA.next if pointerA else headB
+        pointerB = pointerB.next if pointerB else headA
+
+    # 如果相交，指针将位于交点节点，如果没有交点，值为None
+    return pointerA
+
+def getIntersectionNode(headA: ListNode, headB: ListNode) -> ListNode:
+    """
+    题解： 两个链表同时出发，将最长的链表头与较短的那个对齐，并遍历较短的链表，相等则返回
+    :param headA:
+    :param headB:
+    :return:
+    """
+    lenA, lenB = 0, 0
+    cur = headA
+    while cur:         # 求链表A的长度
+        cur = cur.next
+        lenA += 1
+    cur = headB
+    while cur:         # 求链表B的长度
+        cur = cur.next
+        lenB += 1
+    curA, curB = headA, headB
+    if lenA > lenB:     # 让curB为最长链表的头，lenB为其长度
+        curA, curB = curB, curA
+        lenA, lenB = lenB, lenA
+    for _ in range(lenB - lenA):  # 让curA和curB在同一起点上（末尾位置对齐）
+        curB = curB.next
+    while curA:         #  遍历curA 和 curB，遇到相同则直接返回
+        if curA == curB:
+            return curA
+        else:
+            curA = curA.next
+            curB = curB.next
+    return None
+
+def detectCycle(head: ListNode) -> ListNode:
+    """ 环形链表II
+    给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null
+    :param head:
+    :return:
+    """
+    slow = head
+    fast = head
+
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+        # 如果有环，则slow和fast会在此相遇
+        if slow == fast:
+            # 将一个节点重置为头结点， 另一个是当前相遇节点， 然后步步向前，直到再次相遇就是当前的入口点
+            slow = head
+            while slow != fast:
+                slow = slow.next
+                fast = fast.next
+            return slow
+    # If there is no cycle, return None
+    return None
+
